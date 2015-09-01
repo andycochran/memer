@@ -38,3 +38,33 @@
 //   "foundation/components/type",
 //   "foundation/components/offcanvas",
 //   "foundation/components/visibility";
+
+
+// the canvas
+.canvas-container {
+  position: relative;
+  width: 100% !important;
+  height: 0 !important;
+  padding-bottom: 100%;
+  margin: 0 auto $paragraph-margin-bottom;
+}
+#canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+.upper-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+// the save button
+#saver {
+  // &.no-text,
+  &.no-img  {
+    display: none;
+  }
+}
