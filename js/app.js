@@ -45,6 +45,7 @@ function handleImage(e){
             canvas.add(imgInstance);
             canvas.centerObject(imgInstance);
             $("#saver").removeClass('no-img');
+            $("#input-button").addClass('hide');
         }
         img.src = event.target.result;
     }
