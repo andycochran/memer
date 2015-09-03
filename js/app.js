@@ -3,12 +3,12 @@
 $(document).foundation();
 
 
-// prepare the canvas
+// Prepare the canvas:
 var canvas = new fabric.Canvas('canvas',{
     backgroundColor: 'rgb(160,160,160)'
 });
 
-// add overlay to "filter" image and make text readable
+// Add overlay to "filter" image and make text readable:
 var overlay = new fabric.Rect({
   // turn off interractions...
   evented: false,
@@ -22,7 +22,7 @@ var overlay = new fabric.Rect({
 });
 canvas.add(overlay);
 
-// add brand text
+// Add brand text:
 var brandText = new fabric.Text(
     'Memer!', {
         // turn off interractions...
@@ -33,18 +33,18 @@ var brandText = new fabric.Text(
         fontSize: 50,
         fontStyle: 'normal',
         fontWeight: 'bold',
+        fill: 'rgba(255,255,255,1)',
         opacity: 1,
         left: 10,
         top: 10,
         textAlign: 'left'
     }
 );
-brandText.setColor('rgba(255,255,255,1)');
 canvas.add(brandText);
 
-// load an image
+// Load an image:
 var imageLoader = $('input')[0];
-    imageLoader.addEventListener('change', handleImage, false);
+imageLoader.addEventListener('change', handleImage, false);
 
 function handleImage(e){
     var reader = new FileReader();
@@ -78,7 +78,8 @@ function handleImage(e){
             canvas.add(imgInstance);
             canvas.centerObject(imgInstance);
             canvas.sendToBack(imgInstance);
-            $("#saver").removeClass('no-img');
+            // We have an image, so hide file input + show text button...
+            $("#texter").removeClass('hide');
             $("#input-button").addClass('hide');
         }
         img.src = event.target.result;
@@ -87,24 +88,64 @@ function handleImage(e){
  }
 
 
-// prevent dragging too far
+// Prevent dragging image too far:
 canvas.on("object:moving", function(){
-    var obj = this.relatedTarget,
-        leftEdge = obj.getLeft(),
-        rightEdge = obj.getLeft() + obj.getWidth(),
-        topEdge = obj.getTop(),
-        bottomEdge = obj.getTop() + obj.getHeight();
+    if ( canvas.getActiveObject().get('type') === "image" ){
+        var obj = this.relatedTarget,
+            leftEdge = obj.getLeft(),
+            rightEdge = obj.getLeft() + obj.getWidth(),
+            topEdge = obj.getTop(),
+            bottomEdge = obj.getTop() + obj.getHeight();
 
-    leftEdge > 0 && obj.setLeft('0');
-    rightEdge < canvas.width && obj.setLeft(canvas.width - obj.getWidth());
-    topEdge > 0 && obj.setTop('0');
-    bottomEdge < canvas.height && obj.setTop(canvas.height - obj.getHeight());
+        leftEdge > 0 && obj.setLeft('0');
+        rightEdge < canvas.width && obj.setLeft(canvas.width - obj.getWidth());
+        topEdge > 0 && obj.setTop('0');
+        bottomEdge < canvas.height && obj.setTop(canvas.height - obj.getHeight());
+    }
 });
 
 
-// save the canvas as an image
+// Add custom user text:
+var memeText = document.getElementById('texter');
+memeText.addEventListener('click', memeTexter, false);
+
+function memeTexter(e){
+    var userText = new fabric.IText(
+        'Add Text...', {
+            // set interractions...
+            centeredScaling: true,
+            cursorColor: 'rgba(255,255,255,1)',
+            cursorWidth: 8,
+            hoverCursor: 'pointer',
+            editable: true, // default
+            hasControls: false,
+            lockMovementX: true,
+            lockMovementY: true,
+            width: canvas.width,
+            // add some style...
+            backgroundColor: 'rgba(0,0,0,0.25)',
+            fontFamily: 'Helvetica',
+            fontSize: 100,
+            fontStyle: 'normal',
+            fontWeight: 'bold',
+            fill: 'rgba(255,255,255,1)',
+            opacity: 1,
+            selectionColor: 'rgba(17,119,255,0.3)',
+            left: canvas.height / 2,
+            top: canvas.height,
+            originY: 'bottom',
+            originX: 'center',
+            textAlign: 'center'
+        }
+    );
+    $("#texter").addClass('hide');
+    $("#saver").removeClass('hide');
+    canvas.add(userText);
+}
+
+// Save the canvas as an image:
 var imageSaver = document.getElementById('saver');
-    imageSaver.addEventListener('click', saveImage, false);
+imageSaver.addEventListener('click', saveImage, false);
 
 function saveImage(e){
     canvas.deactivateAll().renderAll();
