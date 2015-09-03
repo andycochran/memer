@@ -5,8 +5,22 @@ $(document).foundation();
 
 // prepare the canvas
 var canvas = new fabric.Canvas('canvas',{
-    backgroundColor: 'rgb(128,128,128)'
+    backgroundColor: 'rgb(160,160,160)'
 });
+
+// add overlay to "filter" image and make text readable
+var overlay = new fabric.Rect({
+  // turn off interractions...
+  evented: false,
+  selectable: false,
+  // add some style...
+  left: 0,
+  top: 0,
+  fill: 'rgba(0,0,0,0.25)',
+  width: canvas.width,
+  height: canvas.height
+});
+canvas.add(overlay);
 
 // add brand text
 var brandText = new fabric.Text(
