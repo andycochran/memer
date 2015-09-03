@@ -79,7 +79,7 @@ function handleImage(e){
             canvas.centerObject(imgInstance);
             canvas.sendToBack(imgInstance);
             // We have an image, so hide file input + show text button...
-            $("#texter").removeClass('hide');
+            $("#button--add-text").removeClass('hide');
             $("#input-button").addClass('hide');
         }
         img.src = event.target.result;
@@ -106,31 +106,30 @@ canvas.on("object:moving", function(){
 
 
 // Add custom user text:
-var memeText = document.getElementById('texter');
-memeText.addEventListener('click', memeTexter, false);
+var memeTextBtn = document.getElementById('button--add-text');
+memeTextBtn.addEventListener('click', memeText, false);
 
-function memeTexter(e){
+function memeText(e){
     var userText = new fabric.IText(
-        'Add Text...', {
+        'Enter Text...', {
             // set interractions...
             centeredScaling: true,
             cursorColor: 'rgba(255,255,255,1)',
             cursorWidth: 8,
             hoverCursor: 'pointer',
-            editable: true, // default
             hasControls: false,
             lockMovementX: true,
             lockMovementY: true,
             width: canvas.width,
+            hasBorders: false,
             // add some style...
-            backgroundColor: 'rgba(0,0,0,0.25)',
             fontFamily: 'Helvetica',
             fontSize: 100,
             fontStyle: 'normal',
             fontWeight: 'bold',
             fill: 'rgba(255,255,255,1)',
             opacity: 1,
-            selectionColor: 'rgba(17,119,255,0.3)',
+            selectionColor: 'rgba(17,119,255,0.5)',
             left: canvas.height / 2,
             top: canvas.height,
             originY: 'bottom',
@@ -138,13 +137,20 @@ function memeTexter(e){
             textAlign: 'center'
         }
     );
-    $("#texter").addClass('hide');
-    $("#saver").removeClass('hide');
+    // add the user text to the canvas...
     canvas.add(userText);
+    // activate and select it...
+    canvas.setActiveObject(userText);
+    userText.selectAll();
+    userText.enterEditing();
+    userText.hiddenTextarea.focus();
+    // show/hide buttons for saving...
+    $("#button--add-text").addClass('hide');
+    $("#button--save").removeClass('hide');
 }
 
 // Save the canvas as an image:
-var imageSaver = document.getElementById('saver');
+var imageSaver = document.getElementById('button--save');
 imageSaver.addEventListener('click', saveImage, false);
 
 function saveImage(e){
