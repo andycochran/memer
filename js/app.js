@@ -5,9 +5,28 @@ $(document).foundation();
 
 // prepare the canvas
 var canvas = new fabric.Canvas('canvas',{
-    backgroundColor: 'rgb(240,240,240)'
+    backgroundColor: 'rgb(128,128,128)'
 });
 
+// add brand text
+var brandText = new fabric.Text(
+    'Memer!', {
+        // turn off interractions...
+        evented: false,
+        selectable: false,
+        // add some style...
+        fontFamily: 'Helvetica',
+        fontSize: 50,
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        opacity: 1,
+        left: 10,
+        top: 10,
+        textAlign: 'left'
+    }
+);
+brandText.setColor('rgba(255,255,255,1)');
+canvas.add(brandText);
 
 // load an image
 var imageLoader = $('input')[0];
@@ -44,6 +63,7 @@ function handleImage(e){
             imgInstance.hasControls = false;
             canvas.add(imgInstance);
             canvas.centerObject(imgInstance);
+            canvas.sendToBack(imgInstance);
             $("#saver").removeClass('no-img');
             $("#input-button").addClass('hide');
         }

@@ -50,7 +50,7 @@
   width: 100% !important;
   height: 0 !important;
   padding-bottom: 100%;
-  margin: 0 auto $paragraph-margin-bottom;
+  margin: $paragraph-margin-bottom auto;
 }
 #canvas {
   position: absolute;
