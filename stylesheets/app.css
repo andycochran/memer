@@ -1,0 +1,75 @@
+/*--------------------------------------------------
+  Memer
+--------------------------------------------------*/
+/* line 6, ../scss/app.scss */
+.memer {
+  position: relative;
+}
+
+/* line 9, ../scss/app.scss */
+.memer--inner-wrapper {
+  position: relative;
+}
+/* line 11, ../scss/app.scss */
+.memer--inner-wrapper #memer--choose {
+  position: absolute;
+  top: 0;
+  z-index: 20;
+}
+/* line 16, ../scss/app.scss */
+.memer--inner-wrapper #memer--add-text {
+  position: absolute;
+  bottom: 10%;
+  z-index: 20;
+  margin-bottom: 0;
+}
+/* line 22, ../scss/app.scss */
+.memer--inner-wrapper #memer--save {
+  position: relative;
+  top: 100%;
+}
+/* line 26, ../scss/app.scss */
+.memer--inner-wrapper .memer--button-off {
+  position: absolute !important;
+  margin-left: -99999px !important;
+  right: auto !important;
+  left: auto !important;
+  width: 1px !important;
+}
+
+/* line 35, ../scss/app.scss */
+.canvas-wrapper,
+.canvas-container {
+  position: relative;
+  width: 100% !important;
+  height: 0 !important;
+  padding-bottom: 100%;
+  margin: auto;
+  z-index: 10;
+}
+
+/* line 44, ../scss/app.scss */
+#canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* line 52, ../scss/app.scss */
+.upper-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* line 57, ../scss/app.scss */
+#textarea-anchor {
+  position: absolute;
+  bottom: 0;
+  height: 25%;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
