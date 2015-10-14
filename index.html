@@ -2,26 +2,50 @@
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, height=device-height">
     <title>Memer</title>
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="http://cdn.foundation5.zurb.com/foundation.css" />
     <link rel="stylesheet" href="stylesheets/app.css" />
-    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   </head>
   <body>
 
     <div class="row">
-      <div class="columns medium-8 medium-centered large-7 end">
-        <canvas id="canvas"  width="900" height="900"></canvas>
-        <label for="input" id="input-button" class="button expand">Add Image</label>
-        <input type="file" id="input" class="hide" />
-        <a id="button--add-text" class="button expand hide" href="#">Add Text</a>
-        <a id="button--save" class="button expand hide" href="#">Download</a>
+      <div class="columns small-11 small-centered medium-8 large-7 end">
+
+        <div class="memer">
+          <h1>#Memer</h1>
+          <ol>
+            <li>Take a picture and add some text.</li>
+            <li>Save your #Memer image to your device.</li>
+            <li>Go to Instagram, Snapchat, Twitter, Facebook&hellip;</li>
+            <li>Share your #Memer image.</li>
+          </ol>
+          <div class="memer--inner-wrapper">
+            <div class="canvas-wrapper">
+              <canvas id="canvas"  width="900" height="900"></canvas>
+              <div id="textarea-anchor"></div>
+            </div>
+            <label for="memer--input" id="memer--choose" class="button expand">Add your selfie&hellip;</label>
+            <input type="file" id="memer--input" class="hide" />
+            <button id="memer--add-text" class="button expand memer--button-off">Add your word&hellip;</button>
+            <a id="memer--save" class="button expand memer--button-off" href="#">Download</a>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/foundation/js/foundation.min.js"></script>
-    <script src="bower_components/fabric/dist/fabric.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="http://cdn.foundation5.zurb.com/foundation.js"></script>
+    <script src="js/fabric.min.js"></script>
+    <script src="js/jquery.scrollintoview.min.js"></script>
+    <script src="js/exif.min.js"></script>
+    <script src="js/memer.js"></script>
+
   </body>
 </html>

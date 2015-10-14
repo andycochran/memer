@@ -1,62 +1,23 @@
-// Define Fonts (https://github.com/typekit/webfontloader):
-WebFontConfig = {
-  google:{ families: ['Titillium Web:300,300italic,700,700italic', 'Permanent Marker'] },
-  active: function(){addBrandText();},
-};
-(function(){
-  var wf = document.createElement("script");
-  wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js';
-  wf.async = 'true';
-  document.head.appendChild(wf);
-})();
-
-
 // Prepare the canvas:
 var canvas = new fabric.Canvas('canvas',{
-    backgroundColor: 'rgb(160,160,160)'
+    backgroundColor: '#808080'
 });
 
 
-// Add image overlay to make text readable:
-var overlay = new fabric.Rect({
-  // turn off interractions...
-  evented: false,
-  selectable: false,
-  // add some style...
-  left: 0,
-  top: 0,
-  fill: 'rgba(0,0,0,0.25)',
-  width: canvas.width,
-  height: canvas.height
+// Add image overlay:
+fabric.Image.fromURL( 'images/memer-overlay.png', function(img) {
+    img.set({
+        evented: false,
+        selectable: false,
+        left: 0,
+        top: 0
+    });
+    canvas.add(img);
 });
-canvas.add(overlay);
-
-
-// Add brand text:
-function addBrandText(){
-    var brandText = new fabric.Text(
-        '#Memer', {
-            // turn off interractions...
-            evented: false,
-            selectable: false,
-            // add some style...
-            fontFamily: 'Titillium Web',
-            fontSize: 75,
-            fontStyle: 'normal',
-            fontWeight: '700',
-            fill: 'rgba(255,255,255,1)',
-            opacity: 1,
-            left: 15,
-            top: 10,
-            textAlign: 'left'
-        }
-    );
-    canvas.add(brandText);
-}
 
 
 // Load an image:
-var imageLoader = $('input')[0];
+var imageLoader = $('#memer--input')[0];
 imageLoader.addEventListener('change', handleImage, false);
 
 function handleImage(e){
@@ -64,7 +25,34 @@ function handleImage(e){
     reader.onload = function(event){
         var img = new Image();
         img.onload = function(){
-            var imgInstance = new fabric.Image(img),
+
+            EXIF.getData(this, function() {
+                var orientation = EXIF.getTag(this, "Orientation");
+                switch (orientation) {
+                  case 1:
+                    $rotation=0;break;
+                  case 2:
+                    $rotation=0;break;
+                  case 3:
+                    $rotation=180;break;
+                  case 4:
+                    $rotation=180;break;
+                  case 5:
+                    $rotation=90;break;
+                  case 6:
+                    $rotation=90;break;
+                  case 7:
+                    $rotation=-90;break;
+                  case 8:
+                    $rotation=-90;break;
+                  default:
+                    $rotation=0;break;
+                }
+            });
+
+            var imgInstance = new fabric.Image(img, {
+                  angle: $rotation
+                }),
                 iw = img.width,
                 ih = img.height;
             if (iw > ih) {
@@ -93,8 +81,8 @@ function handleImage(e){
             canvas.centerObject(imgInstance);
             canvas.sendToBack(imgInstance);
             // We have an image, so hide file input + show text button...
-            $('#button--add-text').removeClass('hide');
-            $('#input-button').addClass('hide');
+            $('#memer--add-text').removeClass('memer--button-off');
+            $('#memer--choose').addClass('memer--button-off');
         }
         img.src = event.target.result;
     }
@@ -120,14 +108,14 @@ canvas.on('object:moving', function(){
 
 
 // Add custom user text:
-var memeTextBtn = document.getElementById('button--add-text');
+var memeTextBtn = document.getElementById('memer--add-text');
 memeTextBtn.addEventListener('click', memeText, false);
 
 var userText = new fabric.IText(
     '', {
         // set interractions...
         centeredScaling: true,
-        cursorColor: 'rgba(255,255,255,1)',
+        cursorColor: '#272727',
         cursorWidth: 8,
         hoverCursor: 'pointer',
         hasControls: false,
@@ -141,11 +129,11 @@ var userText = new fabric.IText(
         fontStyle: 'normal',
         fontWeight: '700',
         lineHeight: 0.7,
-        fill: 'rgba(255,255,255,1)',
-        opacity: 1,
-        selectionColor: 'rgba(17,119,255,0.5)',
+        fill: '#272727',
+        opacity: 0.85,
+        selectionColor: 'rgba(153,243,255,0.5)',
         left: canvas.height / 2,
-        top: canvas.height - 60,
+        top: canvas.height - 100,
         originY: 'bottom',
         originX: 'center',
         textAlign: 'center'
@@ -158,10 +146,8 @@ function memeText(e){
     // activate it...
     canvas.setActiveObject(userText);
     userText.enterEditing();
-    userText.hiddenTextarea.focus();
-    // show/hide buttons for saving...
-    $('#button--add-text').addClass('hide');
-    $('#button--save').removeClass('hide');
+    // show add-text button...
+    $('#memer--add-text').addClass('memer--button-off');
 }
 
 
@@ -193,22 +179,40 @@ canvas.on('text:changed', function(e) {
       obj.setScaleY(1);
     }
 
+    // if there is text...
+    var textExists = userText.getText();
+    if (textExists) {
+        // show the save button...
+        $('#memer--save').removeClass('memer--button-off')
+    } else {
+        // hide the save button...
+        $('#memer--save').addClass('memer--button-off')
+    }
+
     canvas.renderAll();
 });
 
 
 // If user doesn't enter text, add placehoder:
 userText.on('editing:exited', function () {
-    var textOriginal = userText.getText();
+    var textExists = userText.getText();
 
-    if (!textOriginal) {
-        userText.set({ text: '___' });
+    if (!textExists) {
+        $('#memer--add-text').removeClass('memer--button-off');
+        $('#memer--save').addClass('memer--button-off');
+        canvas.remove(userText);
     }
 });
 
 
+// don't scroll to the hidden textarea
+userText.on('editing:entered', function () {
+    $('#textarea-anchor').scrollintoview();
+});
+
+
 // Save the canvas as an image:
-var imageSaver = document.getElementById('button--save');
+var imageSaver = document.getElementById('memer--save');
 imageSaver.addEventListener('click', saveImage, false);
 
 function saveImage(e){
@@ -217,5 +221,5 @@ function saveImage(e){
         format: 'jpeg',
         quality: 0.8
     });
-    this.download = 'test.jpg'
+    this.download = 'memer.jpg'
  }

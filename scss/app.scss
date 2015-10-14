@@ -1,11 +1,45 @@
 
-// the canvas
+/*--------------------------------------------------
+  Memer
+--------------------------------------------------*/
+
+.memer {
+  position: relative;
+}
+.memer--inner-wrapper {
+  position: relative;
+  #memer--choose {
+    position: absolute;
+    top: 0;
+    z-index: 20;
+  }
+  #memer--add-text {
+    position: absolute;
+    bottom: 10%;
+    z-index: 20;
+    margin-bottom: 0;
+  }
+  #memer--save {
+    position: relative;
+    top: 100%;
+  }
+  .memer--button-off {
+    position: absolute !important;
+    margin-left: -99999px !important;
+    right: auto !important;
+    left: auto !important;
+    width: 1px !important;
+  }
+}
+
+.canvas-wrapper,
 .canvas-container {
   position: relative;
   width: 100% !important;
   height: 0 !important;
   padding-bottom: 100%;
-  margin: $paragraph-margin-bottom auto;
+  margin: auto;
+  z-index: 10;
 }
 #canvas {
   position: absolute;
@@ -18,4 +52,13 @@
 .upper-canvas {
   width: 100% !important;
   height: 100% !important;
+}
+
+#textarea-anchor {
+  position: absolute;
+  bottom: 0;
+  height: 25%;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
 }
