@@ -1,8 +1,3 @@
-// Foundation JavaScript
-// Documentation can be found at: http://foundation.zurb.com/docs
-$(document).foundation();
-
-
 // Define Fonts (https://github.com/typekit/webfontloader):
 WebFontConfig = {
   google:{ families: ['Titillium Web:300,300italic,700,700italic', 'Permanent Marker'] },
