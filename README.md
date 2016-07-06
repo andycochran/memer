@@ -1,6 +1,6 @@
 # Memer
 
-A client-side meme generator.
+A client-side meme generator. [Demo](http://andycochran.github.io/memer/)
 
 ## Requirements
 
